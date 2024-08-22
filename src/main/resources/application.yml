@@ -1,0 +1,18 @@
+#spring.application.name=Elastic Insight
+#
+#spring.elasticsearch.uris=http://localhost:9200
+#
+
+
+spring:
+  application:
+    name: Elastic-Insight
+  elasticsearch:
+    uris:
+    - http://localhost:9200
+
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.data.elasticsearch: DEBUG

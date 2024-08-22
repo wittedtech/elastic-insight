@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.2</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.wittedtech</groupId>
+	<artifactId>elastic-insight</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Elastic Insight</name>
+	<description>
+		Spring Boot application that monitors and analyzes real-time application
+		logs
+		using the Elastic Stack (Elasticsearch, Logstash, Kibana, and Beats).
+		The application
+		will provide detailed insights into the application&apos;s performance,
+		error rates, and
+		user activities. It will also feature advanced search capabilities and
+		real-time alerting.
+	</description>
+	<!-- 
+	Unique Features:
+
+	Custom Log Analysis: The application will parse custom log formats and
+	provide rich visualizations and insights on application performance,
+	including the ability to drill down into specific log entries.
+	
+	Real-Time Anomaly Detection: Implement machine learning-based anomaly
+	detection using Elastic's machine learning capabilities to identify
+	unusual patterns in log data.
+	
+	User Behavior Analytics: Track and analyze user behavior on the
+	application, with a focus on security (e.g., detecting suspicious
+	activities) and usage patterns. 
+	-->
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
