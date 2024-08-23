@@ -1,10 +1,10 @@
 package com.wittedtech.elastic_insight.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +46,7 @@ public class LogEntryController {
     }
     
     @GetMapping("/search")
-    public SearchHits<LogEntry> searchLogs(@RequestParam String query) {
+    public List<LogEntry> searchLogs(@RequestParam String query) throws IOException {
         return logEntryService.searchLogs(query);
     }
 }

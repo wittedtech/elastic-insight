@@ -1,18 +1,23 @@
 package com.wittedtech.elastic_insight.service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.Query;
-import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
 import com.wittedtech.elastic_insight.model.LogEntry;
 import com.wittedtech.elastic_insight.repository.LogEntryRepository;
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.HighlightField;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 
 @Service
 public class LogEntryService {
@@ -20,7 +25,7 @@ public class LogEntryService {
 	private LogEntryRepository logEntryRepository;
 	
 	@Autowired
-	private  ElasticsearchOperations elasticsearchOperations;
+	private  ElasticsearchClient elasticsearchClient;
 	
 	// ============== Basic CRUD Operations ===================
 	
@@ -43,14 +48,38 @@ public class LogEntryService {
     
     //================== FULL TEXT SEARCH FUNCTIONALITY =====================
     
-    public SearchHits<LogEntry> searchLogs(String searchTerm) {
-        // Use a simple query string for full-text search
-        String searchQuery = String.format("{\"multi_match\": {\"query\": \"%s\", \"fields\": [\"message\", \"stackTrace\"]}}", searchTerm);
+    public List<LogEntry> searchLogs(String searchTerm) throws IOException {
+    	// Build the search request
+        SearchRequest searchRequest = new SearchRequest.Builder()
+            .index("logs")
+            .query(q -> q
+                .multiMatch(m -> m
+                    .query(searchTerm)
+                    .fields("level", "message", "source", "stackTrace")
+                )
+            )
+            .highlight(h -> h
+                .fields("message", f -> f
+                    .preTags("<em>")
+                    .postTags("</em>")
+                )
+            )
+            .build();
 
-        Query query = new StringQuery(searchQuery);
+        // Execute the search request
+        SearchResponse<LogEntry> searchResponse = elasticsearchClient.search(searchRequest, LogEntry.class);
 
-        // Perform the search
-        return elasticsearchOperations.search(query, LogEntry.class);
+        // Handle the response
+        
+        List<LogEntry> result = searchResponse.hits().hits().stream()
+        .map(hit -> {
+            // Extract highlights if needed
+            // Optional: You can extract highlights from the response if needed
+            return hit.source();
+        })
+        .collect(Collectors.toList());
+        
+        return result;
     }
     
 }
